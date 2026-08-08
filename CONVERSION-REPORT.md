@@ -153,10 +153,22 @@ in the converter's own notes so it is not rediscovered as a mystery.
 
 ## Known differences from the original — all deliberate
 
-1. **Entrance animation is flattened.** Reveal-on-scroll, the page fade, and
+1. **Scroll-triggered entrance animation is flattened.** Reveal-on-scroll and
    the hero's 16-second slow zoom are captured in their finished state and not
-   replayed. Content must not depend on JavaScript to be visible, and "1:1" is
+   replayed: content must not depend on JavaScript to be visible, and "1:1" is
    defined at rest. Scroll-driven and click-driven behaviour *is* replayed.
+
+   Two animations **are** restored, because both survive the loss of the
+   client-side router:
+   - **the page fade** on every navigation — timed off the running app
+     (450–500 ms against the original's 0.5 s) and replayed as plain CSS, so
+     it runs at first paint and never depends on JavaScript. Its *exit* half
+     cannot come back: fading out before leaving needs a router to delay the
+     navigation, and a converted site does real page loads.
+   - **the FAQ accordion easing** — the design's own CSS keyframes, fed the
+     content height the React library used to publish at runtime. Measured
+     0→91→133 px opening and 133→69→0 closing, against the original's
+     0→102→133.
 2. **The RSVP form's client-side "Thank you" screen is gone.** It was a React
    state swap on submit. The form now posts to the plugin's own endpoint and
    stores a submission you can read in wp-admin; the plugin's flow replaces the
