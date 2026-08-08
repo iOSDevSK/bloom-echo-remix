@@ -5,34 +5,28 @@ import Footer from "@/components/Footer";
 import PageTransition from "@/components/PageTransition";
 import ScrollReveal from "@/components/ScrollReveal";
 
-const Cart = () => {
-  return (
-    <PageTransition>
-      <div className="min-h-screen bg-background flex flex-col">
-        <Header />
+const Cart = () => (
+  <PageTransition>
+    <div className="min-h-screen bg-background flex flex-col">
+      <Header />
 
-        <main className="flex-1 flex items-center justify-center px-6 py-20">
-          <ScrollReveal>
-            <div className="bg-card rounded-xl p-8 md:p-12 shadow-md text-center max-w-lg w-full">
-              <ShoppingBag className="mx-auto mb-6 text-muted-foreground" size={48} strokeWidth={1} />
-              <h1 className="font-serif text-2xl md:text-3xl font-light mb-4">Your cart is currently empty</h1>
-              <p className="font-sans text-sm text-muted-foreground mb-8">
-                Check out our registry to add items for Soria & Antoine!
-              </p>
-              <Link
-                to="/registry"
-                className="inline-block bg-sage text-primary-foreground px-8 py-3 text-sm font-sans tracking-widest uppercase hover:bg-sage-dark hover:scale-105 transition-all duration-300"
-              >
-                View Registry
-              </Link>
-            </div>
-          </ScrollReveal>
-        </main>
+      <main className="flex-1 flex items-center justify-center px-6 pt-40 pb-28">
+        <ScrollReveal>
+          <div className="text-center max-w-lg">
+            <ShoppingBag className="mx-auto mb-8 text-accent" size={40} strokeWidth={1} />
+            <p className="eyebrow mb-5">Your Cart</p>
+            <h1 className="font-display text-4xl md:text-5xl font-light mb-6">Nothing here yet</h1>
+            <p className="lead mb-10">
+              Have a look at the registry to add something for Soria &amp; Antoine.
+            </p>
+            <Link to="/registry" className="btn-fine">Go to the registry</Link>
+          </div>
+        </ScrollReveal>
+      </main>
 
-        <Footer />
-      </div>
-    </PageTransition>
-  );
-};
+      <Footer />
+    </div>
+  </PageTransition>
+);
 
 export default Cart;

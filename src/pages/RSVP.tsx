@@ -2,9 +2,14 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import PageHero from "@/components/PageHero";
 import PageTransition from "@/components/PageTransition";
 import ScrollReveal from "@/components/ScrollReveal";
 import { Check } from "lucide-react";
+import rsvpHero from "@/assets/couple-ring.jpg";
+
+const inputClass =
+  "w-full border border-border bg-transparent px-4 py-3 font-sans text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:border-accent transition-colors duration-300";
 
 const RSVP = () => {
   const [submitted, setSubmitted] = useState(false);
@@ -22,148 +27,130 @@ const RSVP = () => {
     setSubmitted(true);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   return (
     <PageTransition>
       <div className="min-h-screen bg-background">
-        <Header />
+        <Header transparent />
+        <PageHero
+          image={rsvpHero}
+          alt="The wedding rings"
+          eyebrow="Kindly Reply"
+          title="RSVP"
+          subtitle="Please let us know by September 1, 2025."
+        />
 
-        <section className="py-20 md:py-28 px-6">
-          <ScrollReveal>
-            <div className="max-w-xl mx-auto text-center mb-12">
-              <h1 className="font-serif text-5xl md:text-7xl font-light mb-4">RSVP</h1>
-              <p className="font-sans text-sm text-muted-foreground">
-                We can't wait to celebrate with you! Please let us know if you'll be joining us by September 1, 2025.
-              </p>
-            </div>
-          </ScrollReveal>
-
-          <AnimatePresence mode="wait">
-            {submitted ? (
-              <motion.div
-                key="success"
-                className="max-w-md mx-auto text-center py-16"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5 }}
-              >
+        <section className="section-y">
+          <div className="rail max-w-xl">
+            <AnimatePresence mode="wait">
+              {submitted ? (
                 <motion.div
-                  className="w-16 h-16 rounded-full bg-sage/20 flex items-center justify-center mx-auto mb-6"
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ type: "spring", stiffness: 200, delay: 0.2 }}
+                  key="success"
+                  className="text-center py-10"
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
                 >
-                  <Check className="text-sage-dark" size={32} />
+                  <div className="w-16 h-16 border border-accent flex items-center justify-center mx-auto mb-8">
+                    <Check className="text-accent" size={28} strokeWidth={1.2} />
+                  </div>
+                  <h2 className="font-display text-4xl font-light mb-5">Thank you</h2>
+                  <p className="lead">
+                    Your reply is safely with us. We can't wait to see you in Flagstaff.
+                  </p>
                 </motion.div>
-                <h2 className="font-serif text-3xl font-light mb-4">Thank you!</h2>
-                <p className="font-sans text-sm text-muted-foreground">
-                  We've received your RSVP. We're so excited to celebrate with you in Flagstaff!
-                </p>
-              </motion.div>
-            ) : (
-              <motion.form
-                key="form"
-                onSubmit={handleSubmit}
-                className="max-w-lg mx-auto space-y-6"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.4 }}
-              >
-                {[
-                  { label: "Full Name *", name: "name", type: "text", placeholder: "Your full name", required: true },
-                  { label: "Email *", name: "email", type: "email", placeholder: "your@email.com", required: true },
-                ].map((field, i) => (
-                  <ScrollReveal key={field.name} delay={i * 0.08}>
-                    <div>
-                      <label className="block font-sans text-xs uppercase tracking-wider text-muted-foreground mb-2">{field.label}</label>
+              ) : (
+                <motion.form
+                  key="form"
+                  onSubmit={handleSubmit}
+                  className="space-y-7"
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -16 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  {[
+                    { label: "Full name", name: "name", type: "text", placeholder: "Your full name" },
+                    { label: "Email", name: "email", type: "email", placeholder: "your@email.com" },
+                  ].map((field) => (
+                    <div key={field.name}>
+                      <label className="eyebrow block mb-3">{field.label}</label>
                       <input
                         type={field.type}
                         name={field.name}
-                        required={field.required}
+                        required
                         value={form[field.name as keyof typeof form]}
                         onChange={handleChange}
-                        className="w-full border border-border bg-transparent px-4 py-3 font-sans text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-sage/50 transition-shadow duration-200"
+                        className={inputClass}
                         placeholder={field.placeholder}
                       />
                     </div>
-                  </ScrollReveal>
-                ))}
+                  ))}
 
-                <ScrollReveal delay={0.16}>
                   <div>
-                    <label className="block font-sans text-xs uppercase tracking-wider text-muted-foreground mb-2">Will you be attending? *</label>
-                    <div className="flex gap-4">
+                    <label className="eyebrow block mb-3">Will you be attending?</label>
+                    <div className="flex flex-col sm:flex-row gap-3">
                       {["Joyfully accepts", "Regretfully declines"].map((option) => (
                         <label key={option} className="flex-1 cursor-pointer">
-                          <input type="radio" name="attending" value={option} required onChange={handleChange} className="sr-only peer" />
-                          <div className="border border-border bg-transparent px-4 py-3 text-center font-sans text-sm text-muted-foreground peer-checked:border-sage-dark peer-checked:text-foreground transition-all duration-200 hover:border-sage/50">
+                          <input
+                            type="radio"
+                            name="attending"
+                            value={option}
+                            required
+                            onChange={handleChange}
+                            className="sr-only peer"
+                          />
+                          <div className="border border-border px-4 py-3 text-center font-sans text-[0.7rem] uppercase tracking-[0.22em] text-muted-foreground peer-checked:bg-mocha peer-checked:text-mocha-foreground peer-checked:border-mocha transition-all duration-300">
                             {option}
                           </div>
                         </label>
                       ))}
                     </div>
                   </div>
-                </ScrollReveal>
 
-                <ScrollReveal delay={0.24}>
                   <div>
-                    <label className="block font-sans text-xs uppercase tracking-wider text-muted-foreground mb-2">Number of Guests</label>
-                    <select
-                      name="guests"
-                      value={form.guests}
-                      onChange={handleChange}
-                      className="w-full border border-border bg-transparent px-4 py-3 font-sans text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-sage/50 transition-shadow duration-200"
-                    >
+                    <label className="eyebrow block mb-3">Number of guests</label>
+                    <select name="guests" value={form.guests} onChange={handleChange} className={inputClass}>
                       {[1, 2, 3, 4].map((n) => (
                         <option key={n} value={n}>{n}</option>
                       ))}
                     </select>
                   </div>
-                </ScrollReveal>
 
-                <ScrollReveal delay={0.32}>
                   <div>
-                    <label className="block font-sans text-xs uppercase tracking-wider text-muted-foreground mb-2">Dietary Restrictions</label>
+                    <label className="eyebrow block mb-3">Dietary notes</label>
                     <input
                       type="text"
                       name="dietary"
                       value={form.dietary}
                       onChange={handleChange}
-                      className="w-full border border-border bg-transparent px-4 py-3 font-sans text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-sage/50 transition-shadow duration-200"
+                      className={inputClass}
                       placeholder="Vegetarian, gluten-free, etc."
                     />
                   </div>
-                </ScrollReveal>
 
-                <ScrollReveal delay={0.4}>
                   <div>
-                    <label className="block font-sans text-xs uppercase tracking-wider text-muted-foreground mb-2">A Note for the Couple</label>
+                    <label className="eyebrow block mb-3">A note for us</label>
                     <textarea
                       name="message"
                       value={form.message}
                       onChange={handleChange}
-                      rows={3}
-                      className="w-full border border-border bg-transparent px-4 py-3 font-sans text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-sage/50 resize-none transition-shadow duration-200"
-                      placeholder="Share a message with Soria & Antoine..."
+                      rows={4}
+                      className={`${inputClass} resize-none`}
+                      placeholder="Share a message with Soria & Antoine…"
                     />
                   </div>
-                </ScrollReveal>
 
-                <ScrollReveal delay={0.48}>
-                  <button
-                    type="submit"
-                    className="w-full bg-foreground text-background py-4 text-sm font-sans tracking-widest uppercase hover:bg-foreground/80 hover:scale-[1.02] transition-all duration-300"
-                  >
-                    Send RSVP
-                  </button>
-                </ScrollReveal>
-              </motion.form>
-            )}
-          </AnimatePresence>
+                  <button type="submit" className="btn-fine w-full">Send RSVP</button>
+                </motion.form>
+              )}
+            </AnimatePresence>
+          </div>
         </section>
 
         <Footer />
