@@ -5,9 +5,17 @@ import Footer from "@/components/Footer";
 import PageTransition from "@/components/PageTransition";
 import ScrollReveal from "@/components/ScrollReveal";
 import heroImage from "@/assets/hero-cover.jpg";
-import ceremonyImage from "@/assets/couple-hand-kiss.jpg";
-import receptionImage from "@/assets/couple-kiss.jpg";
-import ctaImage from "@/assets/couple-ring.jpg";
+import detailImage from "@/assets/couple-hand-kiss.jpg";
+import storyPortrait from "@/assets/story-portrait.jpg";
+import ceremonyImage from "@/assets/ceremony-couple.jpg";
+import receptionImage from "@/assets/reception-portrait.jpg";
+import gallery1 from "@/assets/gallery-1.jpg";
+import gallery2 from "@/assets/gallery-2.jpg";
+import proposal from "@/assets/couple-proposal.jpg";
+import ring from "@/assets/couple-ring.jpg";
+import ctaImage from "@/assets/cta-background.jpg";
+
+const galleryStrip = [gallery1, proposal, gallery2, ring, ceremonyImage];
 
 const Index = () => {
   return (
@@ -16,129 +24,192 @@ const Index = () => {
         <Header transparent />
 
         {/* Hero */}
-        <section className="relative h-screen flex items-start justify-center pt-[18vh] overflow-hidden">
+        <section className="relative h-[92vh] min-h-[560px] flex items-center justify-center overflow-hidden">
           <motion.img
             src={heroImage}
-            alt="Soria and Antoine embracing on mountain overlook during sunset"
+            alt="Soria and Antoine embracing at golden hour"
             className="absolute inset-0 w-full h-full object-cover"
-            initial={{ scale: 1.1 }}
+            initial={{ scale: 1.12 }}
             animate={{ scale: 1 }}
-            transition={{ duration: 1.4, ease: "easeOut" }}
+            transition={{ duration: 16, ease: "linear" }}
           />
-          <div className="absolute inset-0 bg-black/30" />
-          <div className="relative z-10 text-center text-white px-4">
-            <motion.p
-              className="font-sans text-sm md:text-base tracking-widest uppercase mb-4"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.3 }}
-            >
-              We're Getting Married!
-            </motion.p>
+          <div className="absolute inset-0 bg-foreground/25" />
+          <div className="relative z-10 text-center text-primary-foreground px-6">
             <motion.h1
-              className="font-serif text-6xl md:text-8xl lg:text-9xl font-light mb-6"
-              initial={{ opacity: 0, y: 30 }}
+              className="font-display text-6xl md:text-8xl lg:text-[7rem] font-light mb-6"
+              initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
+              transition={{ duration: 0.9, delay: 0.3 }}
             >
-              Soria & Antoine
+              Soria &amp; Antoine
             </motion.h1>
             <motion.p
-              className="font-sans text-lg md:text-xl tracking-[0.3em]"
-              initial={{ opacity: 0, y: 20 }}
+              className="eyebrow !text-primary-foreground/85"
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.7 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
             >
-              10 . 14 . 25
+              October 14, 2025 &nbsp;·&nbsp; Flagstaff, Arizona
             </motion.p>
           </div>
         </section>
 
-        {/* Event Details */}
-        <section className="bg-[#f0efed] py-32 md:py-44 px-6 md:px-12">
-          <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24">
-            {/* Ceremony */}
-            <ScrollReveal direction="left">
-              <div className="flex flex-col md:flex-row items-center gap-10">
-                <div className="w-full md:w-1/2 overflow-hidden">
-                  <img src={ceremonyImage} alt="Couple in formal attire in natural outdoor setting" className="w-full aspect-[3/4] object-cover hover:scale-105 transition-transform duration-700" />
-                </div>
-                <div className="text-center flex-1">
-                  <h2 className="font-serif text-6xl md:text-7xl font-light mb-5">Ceremony</h2>
-                  <p className="font-serif text-2xl md:text-3xl mb-5">4:00 PM</p>
-                  <div className="font-sans text-sm text-muted-foreground space-y-1.5 mb-5">
-                    <p>Grace Chapel</p>
-                    <p>123 Pinewood Lane</p>
-                    <p>Flagstaff, AZ 86001</p>
-                  </div>
-                  <a
-                    href="https://maps.google.com/?q=123+Pinewood+Lane+Flagstaff+AZ+86001"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-sans text-sm underline underline-offset-4 text-foreground hover:text-muted-foreground transition-colors"
-                  >
-                    Map
-                  </a>
-                </div>
+        {/* Statement */}
+        <section className="section-y">
+          <div className="rail grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-20 items-center">
+            <ScrollReveal className="md:col-span-5">
+              <div className="frame overflow-hidden">
+                <img src={detailImage} alt="Wedding day detail" className="w-full aspect-[3/4] object-cover" />
               </div>
             </ScrollReveal>
+            <ScrollReveal delay={0.12} className="md:col-span-7">
+              <p className="eyebrow mb-6">The Invitation</p>
+              <h2 className="font-display text-4xl md:text-5xl font-light mb-7 max-w-xl">
+                Every love story deserves to be celebrated, not rehearsed.
+              </h2>
+              <p className="lead max-w-lg mb-9">
+                We are gathering the people we love most in the pines of northern Arizona for one unhurried
+                autumn day — a quiet ceremony, a long table, and dancing until the candles burn low.
+              </p>
+              <Link to="/story" className="link-underline">Read our story</Link>
+            </ScrollReveal>
+          </div>
+        </section>
 
-            {/* Reception */}
-            <ScrollReveal direction="right" delay={0.15}>
-              <div className="flex flex-col md:flex-row items-center gap-10">
-                <div className="w-full md:w-1/2 overflow-hidden md:order-last">
-                  <img src={receptionImage} alt="Woman in flowing dress in natural outdoor setting" className="w-full aspect-[3/4] object-cover hover:scale-105 transition-transform duration-700" />
-                </div>
-                <div className="text-center flex-1">
-                  <h2 className="font-serif text-6xl md:text-7xl font-light mb-5">Reception</h2>
-                  <p className="font-serif text-2xl md:text-3xl mb-5">4:30 - 10:00 PM</p>
-                  <div className="font-sans text-sm text-muted-foreground space-y-1.5 mb-5">
-                    <p>The Copper Barrel</p>
-                    <p>456 Mountain View Drive</p>
-                    <p>Flagstaff, AZ 86001</p>
+        {/* Ceremony & Reception */}
+        <section className="section-y bg-surface">
+          <div className="rail">
+            <ScrollReveal className="text-center mb-16">
+              <p className="eyebrow mb-5">The Day</p>
+              <h2 className="font-display text-4xl md:text-5xl font-light">Ceremony &amp; Reception</h2>
+            </ScrollReveal>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-14 md:gap-20">
+              {[
+                {
+                  img: ceremonyImage,
+                  title: "Ceremony",
+                  time: "4:00 PM",
+                  lines: ["Grace Chapel", "123 Pinewood Lane", "Flagstaff, AZ 86001"],
+                  map: "https://maps.google.com/?q=123+Pinewood+Lane+Flagstaff+AZ+86001",
+                },
+                {
+                  img: receptionImage,
+                  title: "Reception",
+                  time: "4:30 – 10:00 PM",
+                  lines: ["The Copper Barrel", "456 Mountain View Drive", "Flagstaff, AZ 86001"],
+                  map: "https://maps.google.com/?q=456+Mountain+View+Drive+Flagstaff+AZ+86001",
+                },
+              ].map((item, i) => (
+                <ScrollReveal key={item.title} delay={i * 0.12}>
+                  <div className="frame overflow-hidden mb-8">
+                    <img src={item.img} alt={`${item.title} venue`} className="w-full aspect-[4/5] object-cover" />
                   </div>
-                  <a
-                    href="https://maps.google.com/?q=456+Mountain+View+Drive+Flagstaff+AZ+86001"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-sans text-sm underline underline-offset-4 text-foreground hover:text-muted-foreground transition-colors"
-                  >
-                    Map
+                  <h3 className="font-display text-3xl md:text-4xl font-light mb-3">{item.title}</h3>
+                  <p className="script text-2xl mb-4">{item.time}</p>
+                  <div className="text-sm text-muted-foreground space-y-1 mb-6">
+                    {item.lines.map((l) => (
+                      <p key={l}>{l}</p>
+                    ))}
+                  </div>
+                  <a href={item.map} target="_blank" rel="noopener noreferrer" className="link-underline">
+                    View map
                   </a>
-                </div>
+                </ScrollReveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* About the couple */}
+        <section className="section-y">
+          <div className="rail grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-20 items-center">
+            <ScrollReveal className="md:col-span-6 md:order-last">
+              <div className="frame overflow-hidden">
+                <img src={storyPortrait} alt="Portrait of Soria and Antoine" className="w-full aspect-[4/5] object-cover" />
+              </div>
+            </ScrollReveal>
+            <ScrollReveal delay={0.1} className="md:col-span-6">
+              <p className="eyebrow mb-6">Hello From Us</p>
+              <h2 className="font-display text-4xl md:text-5xl font-light mb-7">Nine years, one very long yes.</h2>
+              <p className="lead mb-5">
+                We met over burnt coffee in a bookshop on a rainy Tuesday and have been comparing notes ever
+                since. Between us there are three continents, one stubborn dog, and a running list of the
+                best pastries in every city we've slept in.
+              </p>
+              <p className="lead mb-9">
+                We can't wait to see your faces in one room. Thank you for travelling to be part of it.
+              </p>
+              <p className="script text-3xl">Soria &amp; Antoine</p>
+            </ScrollReveal>
+          </div>
+        </section>
+
+        {/* Registry band */}
+        <section className="bg-mocha text-mocha-foreground">
+          <div className="rail grid grid-cols-1 md:grid-cols-2">
+            <ScrollReveal>
+              <div className="h-full">
+                <img src={proposal} alt="The proposal" className="w-full h-full min-h-[320px] object-cover" />
+              </div>
+            </ScrollReveal>
+            <ScrollReveal delay={0.12}>
+              <div className="py-16 md:py-24 md:pl-16">
+                <p className="eyebrow !text-mocha-foreground/60 mb-6">Gifts</p>
+                <h2 className="font-display text-4xl md:text-5xl font-light mb-6">The Registry</h2>
+                <p className="text-mocha-foreground/80 mb-9 max-w-md leading-relaxed">
+                  Your presence is the whole point. If you'd still like to mark the day with something,
+                  we've put together a small registry and a honeymoon fund.
+                </p>
+                <Link to="/registry" className="btn-ondark">Visit the registry</Link>
               </div>
             </ScrollReveal>
           </div>
         </section>
 
-        {/* CTA - Our Story */}
-        <ScrollReveal>
-          <section className="py-20 md:py-28 text-center px-6">
-            <h2 className="font-serif text-4xl md:text-5xl font-light mb-8">See how it all started</h2>
-            <Link
-              to="/story"
-              className="inline-block bg-foreground text-background px-10 py-3 text-sm font-sans tracking-widest uppercase hover:bg-foreground/80 hover:scale-105 transition-all duration-300"
-            >
-              Our Story
-            </Link>
-          </section>
-        </ScrollReveal>
+        {/* Gallery strip */}
+        <section className="section-y">
+          <div className="rail text-center mb-14">
+            <ScrollReveal>
+              <p className="eyebrow mb-5">Us, Lately</p>
+              <h2 className="font-display text-4xl md:text-5xl font-light">A few of the days that led here</h2>
+            </ScrollReveal>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-2 px-2">
+            {galleryStrip.map((src, i) => (
+              <ScrollReveal key={i} delay={i * 0.06} direction="none">
+                <div className="frame overflow-hidden">
+                  <img src={src} alt="Soria and Antoine together" className="w-full aspect-[3/4] object-cover" />
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+          <div className="text-center mt-12">
+            <Link to="/gallery" className="link-underline">See the full gallery</Link>
+          </div>
+        </section>
 
-        {/* Full-width CTA Image */}
-        <ScrollReveal direction="none" duration={0.8}>
-          <section className="relative h-[60vh] md:h-[70vh] overflow-hidden">
-            <motion.img
-              src={ctaImage}
-              alt="Couple in outdoor setting with mountain landscape"
-              className="absolute inset-0 w-full h-full object-cover"
-              whileInView={{ scale: 1 }}
-              initial={{ scale: 1.05 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1.2, ease: "easeOut" }}
-            />
-            <div className="absolute inset-0 bg-black/20" />
-          </section>
-        </ScrollReveal>
+        {/* Quote */}
+        <section className="section-y bg-surface">
+          <ScrollReveal className="rail max-w-2xl text-center">
+            <p className="script text-3xl md:text-4xl leading-snug mb-8">
+              "Come as you are, stay as long as you can, and dance like the neighbours are far away."
+            </p>
+            <p className="eyebrow">Soria &amp; Antoine</p>
+          </ScrollReveal>
+        </section>
+
+        {/* RSVP CTA */}
+        <section className="relative">
+          <img src={ctaImage} alt="Couple walking at dusk" className="w-full h-[60vh] object-cover" />
+          <div className="absolute inset-0 bg-foreground/40 flex items-center justify-center">
+            <ScrollReveal className="text-center text-primary-foreground px-6">
+              <p className="eyebrow !text-primary-foreground/80 mb-5">Kindly Reply</p>
+              <h2 className="font-display text-4xl md:text-6xl font-light mb-9">Will you be there?</h2>
+              <Link to="/rsvp" className="btn-ondark">RSVP by September 1</Link>
+            </ScrollReveal>
+          </div>
+        </section>
 
         <Footer />
       </div>
