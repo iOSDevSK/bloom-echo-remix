@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Conversion deliverable — 26MB build artifact, kept out of history
+soria-antoine.zip
