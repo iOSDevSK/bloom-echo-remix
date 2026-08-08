@@ -8,6 +8,9 @@ import Index from "./pages/Index";
 import OurStory from "./pages/OurStory";
 import Travel from "./pages/Travel";
 import Registry from "./pages/Registry";
+import Gallery from "./pages/Gallery";
+import Schedule from "./pages/Schedule";
+import FAQ from "./pages/FAQ";
 import Cart from "./pages/Cart";
 import RSVP from "./pages/RSVP";
 import NotFound from "./pages/NotFound";
@@ -23,6 +26,9 @@ const AnimatedRoutes = () => {
         <Route path="/story" element={<OurStory />} />
         <Route path="/travel" element={<Travel />} />
         <Route path="/registry" element={<Registry />} />
+        <Route path="/gallery" element={<Gallery />} />
+        <Route path="/schedule" element={<Schedule />} />
+        <Route path="/faq" element={<FAQ />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/rsvp" element={<RSVP />} />
         <Route path="*" element={<NotFound />} />
