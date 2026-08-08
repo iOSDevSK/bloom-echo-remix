@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -7,97 +7,96 @@ interface HeaderProps {
   transparent?: boolean;
 }
 
+const links = [
+  { to: "/story", label: "Our Story" },
+  { to: "/schedule", label: "Schedule" },
+  { to: "/gallery", label: "Gallery" },
+  { to: "/travel", label: "Travel & Stay" },
+  { to: "/registry", label: "Registry" },
+  { to: "/faq", label: "FAQ" },
+];
+
 const Header = ({ transparent = false }: HeaderProps) => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
 
-  const links = [
-    { to: "/story", label: "Our Story" },
-    { to: "/travel", label: "Travel & Stay" },
-    { to: "/registry", label: "Registry" },
-  ];
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const onDark = transparent && !scrolled;
 
   return (
-    <header className={`${transparent ? "absolute" : "sticky"} top-0 left-0 right-0 z-50 ${transparent ? "bg-transparent" : "bg-card/95 backdrop-blur-sm border-b border-border"}`}>
-      <div className="max-w-7xl mx-auto px-6 md:px-12 py-5 flex items-center justify-between">
-        <nav className="hidden md:flex items-center space-x-8">
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-500 ${
+        onDark ? "bg-transparent" : "bg-background/95 backdrop-blur-sm border-b border-border"
+      }`}
+    >
+      <div className="rail py-5 flex items-center justify-between gap-6">
+        <Link
+          to="/"
+          className={`font-display text-lg md:text-xl tracking-[0.18em] ${onDark ? "text-primary-foreground" : "text-foreground"}`}
+        >
+          Soria &amp; Antoine
+        </Link>
+
+        <nav className="hidden lg:flex items-center gap-8">
           {links.map((link) => (
             <Link
               key={link.to}
               to={link.to}
-              className={`text-sm tracking-wide font-sans transition-colors duration-200 relative after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-px after:bottom-[-2px] after:left-0 after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left ${
-                transparent
-                  ? `hover:text-white/80 after:bg-white ${location.pathname === link.to ? "text-white after:scale-x-100 after:origin-bottom-left" : "text-white/70"}`
-                  : `hover:text-foreground after:bg-foreground ${location.pathname === link.to ? "text-foreground after:scale-x-100 after:origin-bottom-left" : "text-muted-foreground"}`
-              }`}
+              className={`font-sans uppercase text-[0.68rem] tracking-[0.26em] transition-opacity duration-300 hover:opacity-60 ${
+                onDark ? "text-primary-foreground" : "text-foreground"
+              } ${location.pathname === link.to ? "opacity-100 border-b border-current pb-1" : "opacity-80"}`}
             >
               {link.label}
             </Link>
           ))}
         </nav>
 
-        <Link to="/" className={`font-serif text-xl md:text-2xl tracking-wider ${transparent ? "text-white" : "text-foreground"}`}>
-          S&A 10.14.25
-        </Link>
-
-        <div className="hidden md:block">
-          <Link
-            to="/rsvp"
-            className={`px-6 py-2 text-sm tracking-widest uppercase font-sans hover:scale-105 transition-all duration-200 ${
-              transparent ? "bg-white text-foreground hover:bg-white/90" : "bg-foreground text-card hover:bg-foreground/80"
-            }`}
-          >
+        <div className="hidden lg:block">
+          <Link to="/rsvp" className={onDark ? "btn-ondark" : "btn-fine"}>
             RSVP
           </Link>
         </div>
 
         <button
-          className={`md:hidden ${transparent ? "text-white" : "text-foreground"}`}
+          className={`lg:hidden ${onDark ? "text-primary-foreground" : "text-foreground"}`}
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label="Toggle navigation menu"
         >
-          {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+          {mobileOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
       </div>
 
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            className="md:hidden bg-card border-t border-border px-6 py-6 space-y-4 overflow-hidden"
+            className="lg:hidden bg-background border-t border-border overflow-hidden"
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
+            transition={{ duration: 0.35, ease: "easeInOut" }}
           >
-            {links.map((link, i) => (
-              <motion.div
-                key={link.to}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: i * 0.08, duration: 0.3 }}
-              >
+            <div className="rail py-8 flex flex-col gap-5">
+              {links.map((link) => (
                 <Link
+                  key={link.to}
                   to={link.to}
                   onClick={() => setMobileOpen(false)}
-                  className="block text-sm tracking-wide font-sans text-muted-foreground hover:text-foreground transition-colors"
+                  className="font-sans uppercase text-xs tracking-[0.26em] text-foreground"
                 >
                   {link.label}
                 </Link>
-              </motion.div>
-            ))}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: links.length * 0.08, duration: 0.3 }}
-            >
-              <Link
-                to="/rsvp"
-                onClick={() => setMobileOpen(false)}
-                className="block bg-foreground text-card px-6 py-2 text-sm tracking-widest uppercase font-sans text-center"
-              >
+              ))}
+              <Link to="/rsvp" onClick={() => setMobileOpen(false)} className="btn-fine self-start mt-2">
                 RSVP
               </Link>
-            </motion.div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
