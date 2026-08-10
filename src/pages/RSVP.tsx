@@ -7,12 +7,15 @@ import PageTransition from "@/components/PageTransition";
 import ScrollReveal from "@/components/ScrollReveal";
 import { Check } from "lucide-react";
 import rsvpHero from "@/assets/couple-ring.jpg";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "@/hooks/use-toast";
 
 const inputClass =
   "w-full border border-border bg-transparent px-4 py-3 font-sans text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:border-accent transition-colors duration-300";
 
 const RSVP = () => {
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -22,9 +25,23 @@ const RSVP = () => {
     message: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setSending(true);
+    try {
+      const { error } = await supabase.functions.invoke("send-rsvp", { body: form });
+      if (error) throw error;
+      setSubmitted(true);
+    } catch (err) {
+      console.error("send-rsvp failed:", err);
+      toast({
+        title: "Something went wrong",
+        description: "We couldn't send your RSVP. Please try again in a moment.",
+        variant: "destructive",
+      });
+    } finally {
+      setSending(false);
+    }
   };
 
   const handleChange = (
@@ -32,6 +49,7 @@ const RSVP = () => {
   ) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
+
 
   return (
     <PageTransition>
@@ -146,7 +164,10 @@ const RSVP = () => {
                     />
                   </div>
 
-                  <button type="submit" className="btn-fine w-full">Send RSVP</button>
+                  <button type="submit" disabled={sending} className="btn-fine w-full disabled:opacity-60">
+                    {sending ? "Sending…" : "Send RSVP"}
+                  </button>
+
                 </motion.form>
               )}
             </AnimatePresence>
