@@ -164,7 +164,10 @@ const RSVP = () => {
                     />
                   </div>
 
-                  <button type="submit" className="btn-fine w-full">Send RSVP</button>
+                  <button type="submit" disabled={sending} className="btn-fine w-full disabled:opacity-60">
+                    {sending ? "Sending…" : "Send RSVP"}
+                  </button>
+
                 </motion.form>
               )}
             </AnimatePresence>
